@@ -1,20 +1,10 @@
+import { useTodoContext } from "../contexts/TodoContext";
 import { type FilterStatus } from "../types/todo";
 
-interface TodoFilterProps {
-  currentFilter: FilterStatus;
-  onFilterChange: (filter: FilterStatus) => void;
-  activeCount: number;
-  completedCount: number;
-  onClearCompleted: () => void;
-}
+export function TodoFilter() {
+  const { filter, setFilter, activeCount, completedCount, clearCompleted } =
+    useTodoContext();
 
-export function TodoFilter({
-  currentFilter,
-  onFilterChange,
-  activeCount,
-  completedCount,
-  onClearCompleted,
-}: TodoFilterProps) {
   const filters: { key: FilterStatus; label: string }[] = [
     { key: "all", label: "All" },
     { key: "active", label: "Active" },
@@ -35,9 +25,9 @@ export function TodoFilter({
           <button
             key={key}
             type="button"
-            onClick={() => onFilterChange(key)}
+            onClick={() => setFilter(key)}
             className={`px-3 py-1 font-medium rounded-md capitalize transition-all ${
-              currentFilter === key
+              filter === key
                 ? "bg-white text-slate-800 shadow-xs"
                 : "text-slate-500 hover:text-slate-700"
             }`}
@@ -51,7 +41,7 @@ export function TodoFilter({
       {completedCount > 0 ? (
         <button
           type="button"
-          onClick={onClearCompleted}
+          onClick={clearCompleted}
           className="hover:underline text-slate-400 hover:text-rose-600 transition-colors"
         >
           Clear completed ({completedCount})

@@ -1,14 +1,8 @@
-import { type Todo } from "../types/todo";
+import { useTodoContext } from "../contexts/TodoContext";
 import { TodoItem } from "./TodoItem";
 
-interface TodoListProps {
-  todos: Todo[];
-  onToggle: (id: string) => void;
-  onDelete: (id: string) => void;
-  onEdit: (id: string, newTitle: string) => void;
-}
-
-export function TodoList({ todos, onToggle, onDelete, onEdit }: TodoListProps) {
+export function TodoList() {
+  const { todos } = useTodoContext();
   // 1. Empty State: If there are no tasks, show a clean message box
   if (todos.length === 0) {
     return (
@@ -35,13 +29,7 @@ export function TodoList({ todos, onToggle, onDelete, onEdit }: TodoListProps) {
   return (
     <ul className="space-y-2">
       {todos.map((todo) => (
-        <TodoItem
-          key={todo.id}
-          todo={todo}
-          onToggle={onToggle}
-          onDelete={onDelete}
-          onEdit={onEdit}
-        />
+        <TodoItem key={todo.id} todo={todo} />
       ))}
     </ul>
   );

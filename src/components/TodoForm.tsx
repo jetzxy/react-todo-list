@@ -1,10 +1,8 @@
 import { useState, type SubmitEvent } from "react";
+import { useTodoContext } from "../contexts/TodoContext";
 
-interface TodoFormProps {
-  onAddTodo: (title: string) => void;
-}
-
-export function TodoForm({ onAddTodo }: TodoFormProps) {
+export function TodoForm() {
+  const { addTodo } = useTodoContext();
   // Local state for what the user is currently typing
   const [title, setTitle] = useState("");
 
@@ -12,7 +10,7 @@ export function TodoForm({ onAddTodo }: TodoFormProps) {
     e.preventDefault(); //Stop default full-page refresh
     if (!title.trim()) return; //Don't allow empty or space-only tasks
 
-    onAddTodo(title.trim());
+    addTodo(title.trim());
     setTitle("");
   };
   return (

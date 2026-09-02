@@ -1,9 +1,8 @@
-interface TodoHeaderProps {
-  totalCount: number;
-  completedCount: number;
-}
+import { useTodoContext } from "../contexts/TodoContext";
 
-export function TodoHeader({ totalCount, completedCount }: TodoHeaderProps) {
+export function TodoHeader() {
+  const { allTodos, completedCount } = useTodoContext();
+  const totalCount = allTodos.length;
   return (
     <header className="mb-6 text-center">
       <h1 className="text-4xl font-extrabold text-slate-800 tracking-tight">

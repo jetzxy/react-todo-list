@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { type Todo } from "../types/todo";
+import { useTodoContext } from "../contexts/TodoContext";
 
 interface TodoItemProps {
   todo: Todo;
-  onToggle: (id: string) => void;
-  onDelete: (id: string) => void;
-  onEdit: (id: string, newTitle: string) => void;
 }
 
-export function TodoItem({ todo, onToggle, onDelete, onEdit }: TodoItemProps) {
+export function TodoItem({ todo }: TodoItemProps) {
+  const { toggleTodo, deleteTodo, editTodo } = useTodoContext();
   // Local state to manage edit mode and temporary title text
   const [isEditing, setIsEditing] = useState(false);
   const [editTitle, setEditTitle] = useState(todo.title);
@@ -26,7 +25,7 @@ export function TodoItem({ todo, onToggle, onDelete, onEdit }: TodoItemProps) {
 
   // Save changes and exit edit mode
   const handleSave = () => {
-    onEdit(todo.id, editTitle);
+    editTodo(todo.id, editTitle);
     setIsEditing(false);
   };
 
@@ -46,7 +45,7 @@ export function TodoItem({ todo, onToggle, onDelete, onEdit }: TodoItemProps) {
         {/* Custom Checkbox Button */}
         <button
           type="button"
-          onClick={() => onToggle(todo.id)}
+          onClick={() => toggleTodo(todo.id)}
           className={`flex items-center justify-center w-5 h-5 rounded-md border transition-all ${todo.completed ? "bg-indigo-600 border-indigo-600 text-white" : "border-slate-300 hover:border-slave-400 text-transparent"}`}
           aria-label={
             todo.completed ? "Mark as incomplete" : "Mark as complete"
@@ -115,7 +114,7 @@ export function TodoItem({ todo, onToggle, onDelete, onEdit }: TodoItemProps) {
         )}
         <button
           type="button"
-          onClick={() => onDelete(todo.id)}
+          onClick={() => deleteTodo(todo.id)}
           className="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 transition-colors"
           aria-label="Delete task"
         >
